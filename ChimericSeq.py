@@ -3,6 +3,7 @@
 Created on Thu Aug 20 15:46:04 2015
 
 @author: JBSUSER
+@edits: SP@NC
 """
 
 import subprocess,os,math,re,sys,zipfile,datetime,multiprocessing,webbrowser,threading,traceback,time,csv
@@ -24,7 +25,8 @@ class Core:
     doGTF=True
     addPathsBool=True
     outDir=os.getcwd().replace("\\","/")
-    Bowtie2Folder=workingDirectory+'/bowtie2-2.2.9'
+    #Bowtie2Folder=workingDirectory+'/bowtie2-2.2.9'
+    Bowtie2Folder=workingDirectory+'/bowtie2'
     ViralRefFolder=workingDirectory+'/Viral_Reference'
     HostRefFolder=workingDirectory+'/Host_Reference'
     ViralRefFa='None Selected'
@@ -209,9 +211,12 @@ class Core:
             self.FocusData=focusData
             self.GeneData=genes
             self.ChromList=chromList
-            stop=time.time()
-            runtime=stop-start
-            self.printToLog('Build complete at '+str(runtime)+ 'seconds')
+            # Calculate number of gene records extracted (summing across chromosomes)
+            geneCount = sum(len(g) for g in genes)
+            self.printToLog('Extracted ' + str(geneCount) + ' gene records.')
+            stop = time.time()
+            runtime = stop - start
+            self.printToLog('Build complete at ' + str(runtime) + ' seconds')
             self.printToLog('======================================================================')
             self.GO=True
             self.event.set()
@@ -906,6 +911,15 @@ class Core:
                     self.loadAlignments=bool(a[1])
                     if bool(a[1]):
                         self.app.loadAlignmentBoolVar.set(1)
+                elif a[0] == 'Trim5':
+                    self.Trim = int(a[1])
+                    self.app.TrimmingText.delete(1.0, 'end')
+                    self.app.TrimmingText.insert(1.0, a[1])
+                elif a[0] == 'Trim3':
+                    self.Trim2 = int(a[1])
+                    elf.app.TrimmingText2.delete(1.0, 'end')
+                    self.app.TrimmingText2.insert(1.0, a[1])
+                # Add additional keys as needed...
                 """
                 elif a[0]=='Microhomology_sel':
                     self.microhomologystringency_selection = int(a[1])
@@ -1197,6 +1211,8 @@ class Core:
         if not self.folderMode:      #if in single alignment mode (using only one read or one read pair, not batch to folder)
             if len(self.readLocation) ==2 :  #if you have exactly two reads selected
                 mode='paired'
+                # SP added echo to UI
+                self.printToLog('Paired reads will be used.')
                 mode2='fq'
                 for i in range (0,2):
                     if (self.readLocation[i].endswith('.fq') | self.readLocation[i].endswith('.fastq')):  #check if each read ends with .fq or .fastq
@@ -2182,7 +2198,9 @@ class Mapper:
         #self.printToLog('FSS data = '+ str(self.hSam.sam[number]))
         data['ReadName']=name
         data['Index']=len(self.data)
-        data['Chromosome']=self.hSam.sam[number][2][3:]
+        # SP@NC removed deletion of 'chr' in the chromosome string from bowtie2 alignments
+        # data['Chromosome']=self.hSam.sam[number][2][3:]
+        data['Chromosome']=self.hSam.sam[number][2]
         data['HMapQ']=self.hSam.sam[number][4]
         n2=self.hSam.sam[number][0].split('.')
         if len(n2)>2:
@@ -2634,7 +2652,7 @@ class Interface(Frame):
     filtered=False
     useBasic=False
     filteredReroute=[]
-    releaseVersion = "1.13"
+    releaseVersion = "1.13.1"
     currentConfigEntry=None
     selectSplitFiles_Window=0
     #selectDirVar = tki.IntVar()
@@ -2760,7 +2778,7 @@ class Interface(Frame):
         self.changeLabel(self.logoL,'')
         self.logoL.grid(row=0,column=0,columnspan=1,sticky=W)
         self.logoCanvas=Canvas(self.logoFrame)
-        self.logo=PhotoImage(file=self.c.workingDirectory+'/JBS.gif')
+        self.logo=PhotoImage(file=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'JBS.gif'))
         self.logoCanvas.create_image(0,0,image=self.logo,anchor=NW)
         self.logoCanvas.grid(row=0,column=1)
         self.logoFrame.grid(row=4,column=3)  
