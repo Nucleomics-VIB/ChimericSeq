@@ -917,7 +917,7 @@ class Core:
                     self.app.TrimmingText.insert(1.0, a[1])
                 elif a[0] == 'Trim3':
                     self.Trim2 = int(a[1])
-                    elf.app.TrimmingText2.delete(1.0, 'end')
+                    self.app.TrimmingText2.delete(1.0, 'end')
                     self.app.TrimmingText2.insert(1.0, a[1])
                 # Add additional keys as needed...
                 """
