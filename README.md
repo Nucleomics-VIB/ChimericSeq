@@ -6,6 +6,7 @@ list of edits: 2025-03-26
 * add gif picture to display in GUI (copied from the company website)
 * make the config option for Trim5 active,it was ignored in the code
 * stop trimming the chromosome names to clip chr away, this was a very nasty one that removed the chromosome names from my annotations
+* add some debug reporting in teh stdout window to check that GTF loading worked and paired reads are used (was unclear)
 
 I did not evaluate (yet) the effect of other settings that might not be passe dalsthough present in teh config.txt loaded file
 
