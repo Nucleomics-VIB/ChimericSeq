@@ -2352,7 +2352,18 @@ class Mapper:
             data['FocusObj']='N/A'
         self.data.append(data)
         
-        
+    def assemble_gene(attribute_str):
+    """
+    Extracts the gene_id from fields[0] and the gene candidate from fields[2] from a GTF attribute string.
+    If the gene candidate does not contain 'havana', returns gene_id + "_" + gene_candidate; otherwise only gene_id.
+    """
+    fields = attribute_str.split(';')
+    gene_id = fields[0].split(' ')[-1].replace("\"", "")
+    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+    if "havana" not in gene_candidate:
+        return gene_id + "_" + gene_candidate
+    else:
+        return gene_id   
         
     def searchGenes(self,chrom,start,stop):
         distanceThreshold=self.core.distanceThreshold
@@ -2399,25 +2410,13 @@ class Mapper:
                 finalData='pre'
             if final is None:
                 if start<=float(pre[4]):
-                    fields = pre[-1].split(';')
-                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
-                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-                    if "havana" not in gene_candidate:
-                        gene = gene_id + "_" + gene_candidate
-                    else:
-                        gene = gene_id
+                    gene = assemble_gene(pre[-1])
                     information['Inside']='True'
                     information['DistanceToGene']=0
                     information['Direction']='N/A'
                     focusGene=pre
                 elif stop>=float(post[3]):
-                    fields = post[-1].split(';')
-                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
-                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-                    if "havana" not in gene_candidate:
-                        gene = gene_id + "_" + gene_candidate
-                    else:
-                        gene = gene_id
+                    gene = assemble_gene(post[-1])
                     information['Inside']='True'
                     information['DistanceToGene']=0
                     information['Direction']='N/A'
@@ -2426,26 +2425,14 @@ class Mapper:
                     distance1=start-float(pre[4])
                     distance2=float(post[3])-stop
                     if distance1<distanceThreshold and distance1<distance2:
-                        fields = pre[-1].split(';')
-                        gene_id = fields[0].split(' ')[-1].replace("\"", "")
-                        gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-                        if "havana" not in gene_candidate:
-                            gene = gene_id + "_" + gene_candidate
-                        else:
-                            gene = gene_id
+                        gene = assemble_gene(pre[-1])
                         information['DistanceToGene']=distance1
                         information['Direction']='Down stream'
                         information['Inside']='False'
                         focusGene=pre
                         
                     elif  distance2<distanceThreshold and distance2<distance1:
-                        fields = post[-1].split(';')
-                        gene_id = fields[0].split(' ')[-1].replace("\"", "")
-                        gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-                        if "havana" not in gene_candidate:
-                            gene = gene_id + "_" + gene_candidate
-                        else:
-                            gene = gene_id
+                        gene = assemble_gene(post[-1])
                         information['DistanceToGene']=distance2
                         information['Direction']='Up stream'
                         information['Inside']='False'
@@ -2459,13 +2446,7 @@ class Mapper:
                 information['Gene']=gene
             else:
                 if final=='pre':
-                    fields = pre[-1].split(';')
-                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
-                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-                    if "havana" not in gene_candidate:
-                        gene = gene_id + "_" + gene_candidate
-                    else:
-                        gene = gene_id
+                    gene = assemble_gene(pre[-1])
                     if start<=float(pre[4]):
                         information['Inside']='True'
                         information['DistanceToGene']=0
@@ -2478,13 +2459,7 @@ class Mapper:
                         information['Inside']='False'
                     focusGene=pre     
                 else:
-                    fields = post[-1].split(';')
-                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
-                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-                    if "havana" not in gene_candidate:
-                        gene = gene_id + "_" + gene_candidate
-                    else:
-                        gene = gene_id
+                    gene = assemble_gene(post[-1])
                     if stop>=float(post[3]):
                         information['Inside']='True'
                         information['DistanceToGene']=0
@@ -2679,16 +2654,12 @@ class Sam:
 def hello():
     pass
 
-
-
-
-
 class Interface(Frame):
     pairedReads=True
     filtered=False
     useBasic=False
     filteredReroute=[]
-    releaseVersion = "1.13.2"
+    releaseVersion = "1.13.3"
     currentConfigEntry=None
     selectSplitFiles_Window=0
     #selectDirVar = tki.IntVar()
