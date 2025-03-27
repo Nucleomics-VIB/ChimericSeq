@@ -1,5 +1,7 @@
 # ChimericSeq
 
+This forked branch is under further development to comply with ENSembl GTF format and to report useful results
+
 list of edits: 2025-03-26
 
 * unset bowtie2 version in reqs since version has changed since the original code
