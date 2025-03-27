@@ -71,7 +71,7 @@ with open(input_file, newline='') as csvfile:
 
         # Append gene field; output order:
         # chrom, host_start, host_end, gene, viral_acc, viral_start, viral_end, vmapq
-        bed_lines.append([chrom, host_start, host_end, gene, viral_acc, viral_start, viral_end, vmapq])
+        bed_lines.append((chrom, host_start, host_end, gene, viral_acc, viral_start, viral_end, vmapq))  # Convert to tuple
 
 # Sort the bed_lines by chromosome (natural order) then numeric order of start and end
 sorted_lines = sorted(bed_lines, key=lambda x: (natural_key(x[0]), int(x[1]), int(x[2])))
