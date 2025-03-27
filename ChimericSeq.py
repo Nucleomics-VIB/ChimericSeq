@@ -2363,8 +2363,8 @@ class Mapper:
     if "havana" not in gene_candidate:
         return gene_id + "_" + gene_candidate
     else:
-        return gene_id   
-        
+        return gene_id
+       
     def searchGenes(self,chrom,start,stop):
         distanceThreshold=self.core.distanceThreshold
         information={}
@@ -3284,7 +3284,6 @@ class Interface(Frame):
             
     def EXIT(self):
         self.master.destroy()
-        sys.exit()
     
     def openWeb(self):
         webbrowser.open('http://www.jbs-science.com/ChimericSeq.php')
