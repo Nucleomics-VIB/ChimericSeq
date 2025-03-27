@@ -4,9 +4,9 @@
 # Usage: ./chimericseq2bed.sh input.csv output.bed
 # SP@NC; 2025-03-27; v1.0
 
-# current bed_columns:
+# bed_columns:
 #   [chrom, host_start, host_end, gene, viral_acc, viral_start, viral_end, vmapq]
-# rem: can be tuned to extract other columns out of this complete list
+# rem: the code can be tuned to extract other columns out of this complete list
 #   ReadName,ReadLength,Sequence,Chromosome,Gene,InsideGene,DistanceToGene,GeneDirection,
 #   Focus,GeneObj,FocusObj,HostLocalCords,Hlength,HostRefCords,HostOrientation,
 #   ViralAccession,ViralLocalCords,Vlength,ViralRefCords,ViralOrientation,
