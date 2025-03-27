@@ -77,7 +77,7 @@ with open(input_file, newline='') as csvfile:
 sorted_lines = sorted(bed_lines, key=lambda x: (natural_key(x[0]), int(x[1]), int(x[2])))
 
 # Use a set to track unique lines
-unique_lines = set(sorted_lines)
+unique_lines = set(sorted_lines)  # Tuples are hashable, so this works
 
 with open(output_file, 'w', newline='') as bedfile:
     writer = csv.writer(bedfile, delimiter='\t')
