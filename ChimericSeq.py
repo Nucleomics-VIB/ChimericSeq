@@ -156,7 +156,7 @@ class Core:
         self.app.printToLog('Logging Session')
         self.app.printToLog('Date Time: '+str(datetime.datetime.now()))
         self.app.printToLog('Number of CPU cores: '+str(multiprocessing.cpu_count()))
-        self.printDefaults()
+        # self.printDefaults()
         root.mainloop()
 
     def resetLargeFileProcess(self):
@@ -888,7 +888,6 @@ class Core:
                 elif a[0]=='VRFa':
                     self.ViralRefFa=a[1]
                     self.app.changeLabel(self.app.vrf,a[1])
-                    self.printToLog('DEBUG: ViralRefFa updated to: ' + self.ViralRefFa)
                 elif a[0]=='VID':
                     self.ViralRefFolder=a[1]
                     self.app.changeLabel(self.app.vdd,a[1])
@@ -898,7 +897,6 @@ class Core:
                 elif a[0]=='HRFa':
                     self.HostRefFa=a[1]
                     self.app.changeLabel(self.app.hrf,a[1])
-                    self.printToLog('DEBUG: HostRefFa updated to: ' + self.HostRefFa)
                 elif a[0]=='HID':
                     self.HostRefFolder=a[1]
                     self.app.changeLabel(self.app.hdd,a[1])
