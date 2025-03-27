@@ -2399,13 +2399,25 @@ class Mapper:
                 finalData='pre'
             if final is None:
                 if start<=float(pre[4]):
-                    gene=pre[-1].split(';')[2].split(' ')[-1].replace("\"","")
+                    fields = pre[-1].split(';')
+                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
+                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+                    if "havana" not in gene_candidate:
+                        gene = gene_id + "_" + gene_candidate
+                    else:
+                        gene = gene_id
                     information['Inside']='True'
                     information['DistanceToGene']=0
                     information['Direction']='N/A'
                     focusGene=pre
                 elif stop>=float(post[3]):
-                    gene=post[-1].split(';')[2].split(' ')[-1].replace("\"","")
+                    fields = post[-1].split(';')
+                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
+                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+                    if "havana" not in gene_candidate:
+                        gene = gene_id + "_" + gene_candidate
+                    else:
+                        gene = gene_id
                     information['Inside']='True'
                     information['DistanceToGene']=0
                     information['Direction']='N/A'
@@ -2414,14 +2426,26 @@ class Mapper:
                     distance1=start-float(pre[4])
                     distance2=float(post[3])-stop
                     if distance1<distanceThreshold and distance1<distance2:
-                        gene=pre[-1].split(';')[2].split(' ')[-1].replace("\"","")
+                        fields = pre[-1].split(';')
+                        gene_id = fields[0].split(' ')[-1].replace("\"", "")
+                        gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+                        if "havana" not in gene_candidate:
+                            gene = gene_id + "_" + gene_candidate
+                        else:
+                            gene = gene_id
                         information['DistanceToGene']=distance1
                         information['Direction']='Down stream'
                         information['Inside']='False'
                         focusGene=pre
                         
                     elif  distance2<distanceThreshold and distance2<distance1:
-                        gene=post[-1].split(';')[2].split(' ')[-1].replace("\"","")
+                        fields = post[-1].split(';')
+                        gene_id = fields[0].split(' ')[-1].replace("\"", "")
+                        gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+                        if "havana" not in gene_candidate:
+                            gene = gene_id + "_" + gene_candidate
+                        else:
+                            gene = gene_id
                         information['DistanceToGene']=distance2
                         information['Direction']='Up stream'
                         information['Inside']='False'
@@ -2435,7 +2459,13 @@ class Mapper:
                 information['Gene']=gene
             else:
                 if final=='pre':
-                    gene=pre[-1].split(';')[2].split(' ')[-1].replace("\"","")
+                    fields = pre[-1].split(';')
+                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
+                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+                    if "havana" not in gene_candidate:
+                        gene = gene_id + "_" + gene_candidate
+                    else:
+                        gene = gene_id
                     if start<=float(pre[4]):
                         information['Inside']='True'
                         information['DistanceToGene']=0
@@ -2448,7 +2478,13 @@ class Mapper:
                         information['Inside']='False'
                     focusGene=pre     
                 else:
-                    gene=post[-1].split(';')[2].split(' ')[-1].replace("\"","")
+                    fields = post[-1].split(';')
+                    gene_id = fields[0].split(' ')[-1].replace("\"", "")
+                    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+                    if "havana" not in gene_candidate:
+                        gene = gene_id + "_" + gene_candidate
+                    else:
+                        gene = gene_id
                     if stop>=float(post[3]):
                         information['Inside']='True'
                         information['DistanceToGene']=0
@@ -2652,7 +2688,7 @@ class Interface(Frame):
     filtered=False
     useBasic=False
     filteredReroute=[]
-    releaseVersion = "1.13.1"
+    releaseVersion = "1.13.2"
     currentConfigEntry=None
     selectSplitFiles_Window=0
     #selectDirVar = tki.IntVar()
