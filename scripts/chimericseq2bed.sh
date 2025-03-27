@@ -76,8 +76,11 @@ with open(input_file, newline='') as csvfile:
 # Sort the bed_lines by chromosome (natural order) then numeric order of start and end
 sorted_lines = sorted(bed_lines, key=lambda x: (natural_key(x[0]), int(x[1]), int(x[2])))
 
+# Use a set to track unique lines
+unique_lines = set(sorted_lines)
+
 with open(output_file, 'w', newline='') as bedfile:
     writer = csv.writer(bedfile, delimiter='\t')
-    for line in sorted_lines:
+    for line in sorted(unique_lines, key=lambda x: (natural_key(x[0]), int(x[1]), int(x[2]))):
         writer.writerow(line)
 EOF
