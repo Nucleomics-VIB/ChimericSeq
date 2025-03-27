@@ -18,7 +18,20 @@ from bisect import bisect
 from Bio import SeqIO
 from Bio.SeqIO.QualityIO import FastqGeneralIterator
 
- 
+        
+def assemble_gene(attribute_str):
+    """
+    Extracts the gene_id from fields[0] and the gene candidate from fields[2] from a GTF attribute string.
+    If the gene candidate does not contain 'havana', returns gene_id + "_" + gene_candidate; otherwise only gene_id.
+    """
+    fields = attribute_str.split(';')
+    gene_id = fields[0].split(' ')[-1].replace("\"", "")
+    gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
+    if "havana" not in gene_candidate:
+        return gene_id + "_" + gene_candidate
+    else:
+        return gene_id
+
 class Core:
     workingDirectory=os.getcwd().replace("\\","/")   #Base directory = D://ChimericSeq for example
     BUILDING=False
@@ -2351,19 +2364,6 @@ class Mapper:
             data['GeneObj']='N/A'
             data['FocusObj']='N/A'
         self.data.append(data)
-        
-    def assemble_gene(attribute_str):
-        """
-        Extracts the gene_id from fields[0] and the gene candidate from fields[2] from a GTF attribute string.
-        If the gene candidate does not contain 'havana', returns gene_id + "_" + gene_candidate; otherwise only gene_id.
-        """
-        fields = attribute_str.split(';')
-        gene_id = fields[0].split(' ')[-1].replace("\"", "")
-        gene_candidate = fields[2].split(' ')[-1].replace("\"", "") if len(fields) > 2 else ""
-        if "havana" not in gene_candidate:
-            return gene_id + "_" + gene_candidate
-        else:
-            return gene_id
        
     def searchGenes(self,chrom,start,stop):
         distanceThreshold=self.core.distanceThreshold

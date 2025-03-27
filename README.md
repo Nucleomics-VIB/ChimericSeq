@@ -6,7 +6,7 @@ list of edits: 2025-03-26
 
 * unset bowtie2 version in reqs since version has changed since the original code
 * add gif picture to display in GUI (copied from the company website)
-* make the config option for Trim5 active,it was ignored in the code
+* make the config option for Trim5 active, it was ignored in the code which was not good when using UMI-containing input reads (5' first 8 bases)
 * stop trimming the chromosome names to clip chr away, this was a very nasty one that removed the chromosome names from my annotations
 * add some debug reporting in the stdout window to check that GTF loading worked and paired reads are used (was unclear)
 * correct the way gene is extracted from GTF data which did not match ensembl GTF for non-cannonical genes (lncRNA, ...). Now concatenates the ENS gene_id and the gene name when exists
