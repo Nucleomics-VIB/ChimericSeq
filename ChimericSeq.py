@@ -3283,7 +3283,8 @@ class Interface(Frame):
             
             
     def EXIT(self):
-        self.master.destroy()
+        self.master.destroy()  # Destroy the Tkinter window
+        sys.exit()  # Terminate the Python process  
     
     def openWeb(self):
         webbrowser.open('http://www.jbs-science.com/ChimericSeq.php')
