@@ -280,6 +280,7 @@ class Core:
         
     def printDefaults(self):
         self.printToLog('Code Version: ' + self.app.releaseVersion)  # Add version number to the log
+        self.printToLog('Author: ' + self.app.releaseAuthor)  # Add author to the log
         self.printToLog('Working Directory Set To:\n'+self.workingDirectory)
         self.printToLog('Bowtie2 Folder is set to:\n'+self.Bowtie2Folder)
         self.printToLog('Viral Reference File is set to:\n'+self.ViralRefFa)
@@ -2660,7 +2661,8 @@ class Interface(Frame):
     filtered=False
     useBasic=False
     filteredReroute=[]
-    releaseVersion = "1.13.3"
+    releaseVersion = "1.13.3.1"
+    releaseAuthor = "SP@NC"  # Add the author of the version
     currentConfigEntry=None
     selectSplitFiles_Window=0
     #selectDirVar = tki.IntVar()
