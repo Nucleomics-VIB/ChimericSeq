@@ -279,6 +279,7 @@ class Core:
         self.app.printToLog(message)
         
     def printDefaults(self):
+        self.printToLog('Code Version: ' + self.app.releaseVersion)  # Add version number to the log
         self.printToLog('Working Directory Set To:\n'+self.workingDirectory)
         self.printToLog('Bowtie2 Folder is set to:\n'+self.Bowtie2Folder)
         self.printToLog('Viral Reference File is set to:\n'+self.ViralRefFa)
