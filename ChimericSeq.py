@@ -186,7 +186,6 @@ class Core:
         self.savedReadsLogFilename=""
         self.savedReadsDir=""
         self.multipleFileFinalReads=[]
-
         self.processLargeFile=False # batch mode
         self.processLargeFileDir="" # directory for files
         self.processingLargeFile = False
@@ -1937,8 +1936,8 @@ class Core:
                                     if (self.checkSimilarity(str(seq), str(sequence)) == True):
                                         skip=True
                                         break
-                            #else:
-                            #    self.printToLog('similarity ccheck skip for high records count')                
+                            else:
+                                self.printToLog('DEBUG: skip similarity check for high records count')                
                             if not skip:
                                 data.append(row)
                                 if (records_saved > 200) or (seq.reverse_complement() not in sequences):
@@ -2011,7 +2010,7 @@ class Core:
                         for row in data:
                             writer.writerow(row)
                             count1 +=1
-                    #self.printToLog(str(count1)+' reads saved to '+filename1+'\n')
+                    # self.printToLog(str(count1)+' reads saved to '+filename1+'\n')
 
                     if len(self.savedReadsMapData)==0:
                         filename2 = self.runDirectory+'/'+self.readBaseName+'_OUTPUT_'+st+'_no_complements.csv'        
@@ -2687,7 +2686,7 @@ class Interface(Frame):
         self.master=master
         
     def create_widgets(self):
-        self.master.title("JBS ChimericSeq "+ self.releaseVersion)
+        self.master.title("JBS ChimericSeq "+ self.releaseVersion + "(" + self.releaseAuthor + ")")
 
         self.label1=Text(self.master,height=1,width=20,state=DISABLED,relief=FLAT,background=self.defaultbg)
         self.changeLabel(self.label1,'Fastq File(s):')
