@@ -6,6 +6,24 @@ Created on Thu Aug 20 15:46:04 2015
 @edits: SP@NC
 """
 
+"""
+CSV Outputs Description:
+
+1. Main OUTPUT CSV:
+   - Contains all records that successfully pass the filtering criteria.
+   - Named using the pattern: <readBaseName>_OUTPUT_<timestamp>.csv
+
+2. No Duplicates CSV:
+   - Contains records with exact duplicate entries removed.
+   - Generated in single-file mode with the pattern: <readBaseName>_OUTPUT_<timestamp>_no_duplicates.csv
+
+3. No Complements CSV:
+   - Contains records with reverse complement duplicates removed.
+   - In single-file mode, saved as: <readBaseName>_OUTPUT_<timestamp>_no_complements.csv
+   - In batch (large file) mode, the filtered data are accumulated and saved/appended to a revised CSV:
+     <readBaseName>_revised_OUTPUT_<timestamp>.csv
+"""
+
 import subprocess,os,math,re,sys,zipfile,datetime,multiprocessing,webbrowser,threading,traceback,time,csv
 import platform
 import difflib
@@ -1414,8 +1432,6 @@ class Core:
         self.app.resetYesNoButtons()                
 
 
-        
-    
     def setSingleMode(self):
         if self.folderMode==True:
             self.printToLog('Changed Mode: Single Run')
@@ -2068,9 +2084,6 @@ class Core:
         self.event.wait()
         self.event.clear()
         self.printToLog('======================================================================\n')
-        
-
-    
 
 class Mapper:
     def __init__(self,vSam,hSam,core):
